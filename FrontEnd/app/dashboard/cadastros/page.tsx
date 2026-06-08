@@ -89,7 +89,7 @@ function Field({
   step?: string;
 }) {
   return (
-    <div className={span === 2 ? 'col-span-2' : ''}>
+    <div className={span === 2 ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
@@ -118,7 +118,7 @@ function SelectField({
   span?: number;
 }) {
   return (
-    <div className={span === 2 ? 'col-span-2' : ''}>
+    <div className={span === 2 ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
@@ -160,7 +160,7 @@ function CpfField({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className={span === 2 ? 'col-span-2' : ''}>
+    <div className={span === 2 ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">
         CPF {required && <span className="text-red-500">*</span>}
       </label>
@@ -269,7 +269,7 @@ function WeekdayPicker({
     onChange(value.includes(d) ? value.filter((x) => x !== d) : [...value, d].sort((a, b) => a - b));
 
   return (
-    <div className="col-span-2">
+    <div className="sm:col-span-2">
       <label className="block text-xs font-semibold text-gray-600 mb-2">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
@@ -311,7 +311,7 @@ function OrderedParadaList({
     onChange(value.map((item, idx) => (idx === i ? val : item)));
 
   return (
-    <div className="col-span-2">
+    <div className="sm:col-span-2">
       <label className="block text-xs font-semibold text-gray-600 mb-2">
         Paradas da Rota (ordem de embarque) <span className="text-red-500">*</span>
       </label>
@@ -372,13 +372,13 @@ function FormCard({
 }) {
   return (
     <form onSubmit={onSubmit} onReset={onReset} className="bg-white rounded-2xl shadow-sm border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-100">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100">
         <h3 className="text-gray-800 font-semibold text-[15px]">{title}</h3>
         <p className="text-gray-400 text-xs mt-0.5">Preencha os dados e clique em Salvar</p>
       </div>
-      <div className="p-6">{children}</div>
+      <div className="p-4 sm:p-6">{children}</div>
       {(error || success) && (
-        <div className="px-6 pb-4">
+        <div className="px-4 sm:px-6 pb-4">
           <p
             className="text-xs font-medium rounded-xl px-3.5 py-2.5"
             style={
@@ -391,7 +391,7 @@ function FormCard({
           </p>
         </div>
       )}
-      <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
+      <div className="px-4 sm:px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
         <button
           type="reset"
           className="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
@@ -450,7 +450,7 @@ function FormDestinos() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Nome do Destino" name="nome" placeholder="Ex: UNICAMP — Campus Central" required span={2} />
         <Field label="Rua / Logradouro" name="rua" placeholder="Ex: Rua Roxo Moreira, 1500" required span={2} />
         <Field label="Cidade" name="cidade" placeholder="Ex: Campinas" required />
@@ -496,7 +496,7 @@ function FormParadas() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Nome / Apelido da Parada" name="nome" placeholder="Ex: Terminal Central" required span={2} />
         <Field label="Cidade" name="cidade" placeholder="Ex: Campinas" required span={2} />
         <Field label="Latitude" name="latitude" type="number" step="any" placeholder="Ex: -22.9099" required />
@@ -549,7 +549,7 @@ function FormRotas() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Cidade da Rota" name="cidade" placeholder="Ex: Campinas" required span={2} />
         <OrderedParadaList paradas={paradas} value={paradaIds} onChange={setParadaIds} />
       </div>
@@ -604,7 +604,7 @@ function FormHorarios() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Cidade" name="cidade" placeholder="Ex: Campinas" required span={2} />
         <SelectField
           label="Turno"
@@ -643,7 +643,7 @@ function FormHorarios() {
           />
         </div>
         {invalido && (
-          <div className="col-span-2 rounded-xl p-3 text-xs text-red-600" style={{ background: '#fef2f2', border: '1px solid #fecaca' }}>
+          <div className="sm:col-span-2 rounded-xl p-3 text-xs text-red-600" style={{ background: '#fef2f2', border: '1px solid #fecaca' }}>
             O horário de volta precisa ser maior que o horário de ida (horario_volta &gt; horario_ida).
           </div>
         )}
@@ -713,7 +713,7 @@ function FormVeiculos() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Placa" name="placa" placeholder="Ex: ABC-1234" required />
         <Field label="Modelo" name="modelo" placeholder="Ex: Marcopolo Torino" required />
         <SelectField
@@ -743,7 +743,7 @@ function FormVeiculos() {
           options={STATUS_VEICULO}
           span={2}
         />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <label className="block text-xs font-semibold text-gray-600 mb-2">Comodidades de Conforto</label>
           <div className="flex flex-wrap gap-2">
             {COMODIDADES.map(({ key, label }) => (
@@ -772,7 +772,7 @@ function FormVeiculos() {
             Enviado como booleanos nomeados: ar_condicionado, banheiro, persiana, luz_leitura, tomada
           </p>
         </div>
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <FileUpload
             label="Foto do Veículo"
             bucket="fotos"
@@ -833,7 +833,7 @@ function FormMotoristas() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Nome Completo" name="nome" placeholder="Ex: Carlos Souza" required span={2} />
         <CpfField required value={cpf} onChange={setCpf} />
         <Field label="Telefone" name="telefone" type="tel" placeholder="(00) 00000-0000" />
@@ -842,7 +842,7 @@ function FormMotoristas() {
         <SelectField label="Turno" name="turno" required options={TURNOS_COMPLETOS} />
         <Field label="Cidade de Trabalho" name="cidade_trabalho" placeholder="Ex: Campinas" required />
         <Field label="Residência" name="residencia" placeholder="Ex: Valinhos — Rua das Flores, 123" required span={2} />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <FileUpload
             label="Foto do Motorista"
             hint="Foto de perfil do motorista"
@@ -897,13 +897,13 @@ function FormClientes() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Nome Completo" name="nome" placeholder="Ex: Maria Silva" required span={2} />
         <CpfField required value={cpf} onChange={setCpf} />
         <Field label="Telefone" name="telefone" type="tel" placeholder="(00) 00000-0000" />
         <Field label="Data de Nascimento" name="data_nasc" type="date" required />
         <Field label="Senha" name="senha" type="password" placeholder="••••••••" required span={2} />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <FileUpload
             label="Foto do Cliente"
             hint="Foto de perfil do cliente"
@@ -983,7 +983,7 @@ function FormVinculos() {
       error={error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SelectField
           label="Cliente"
           name="cliente_id"
@@ -1015,7 +1015,7 @@ function FormVinculos() {
           value={horariosFixos}
           onChange={setHorariosFixos}
         />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <FileUpload
             label="Comprovante (matrícula / estágio)"
             hint="PDF ou imagem do comprovante"
@@ -1074,12 +1074,12 @@ function FormAdmins() {
       error={senhaMismatch ? 'As senhas informadas não coincidem.' : error}
       success={success}
     >
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="E-mail" name="email" type="email" placeholder="admin@bondrota.com" required span={2} />
         <Field label="Senha" name="senha" type="password" placeholder="••••••••" required />
         <Field label="Confirmar Senha" name="confirmar_senha" type="password" placeholder="••••••••" required />
         <Field label="Cidade" name="cidade" placeholder="Ex: São Paulo" span={2} />
-        <div className="col-span-2 rounded-xl p-3 text-xs text-amber-700" style={{ background: '#fffbeb', border: '1px solid #fde68a' }}>
+        <div className="sm:col-span-2 rounded-xl p-3 text-xs text-amber-700" style={{ background: '#fffbeb', border: '1px solid #fde68a' }}>
           Administradores têm acesso completo ao sistema. Cadastre apenas usuários autorizados.
         </div>
       </div>
@@ -1122,7 +1122,7 @@ export default function CadastrosPage() {
   return (
     <div className="min-h-full">
       <Header title="Central de Cadastros" subtitle="Gerencie todas as entidades do sistema" />
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
 
         {/* Tabs */}
         <div className="flex gap-1 p-1 bg-white rounded-2xl shadow-sm border border-gray-100 mb-6 overflow-x-auto">

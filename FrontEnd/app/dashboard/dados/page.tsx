@@ -380,7 +380,7 @@ function MField({
   step?: string;
 }) {
   return (
-    <div className={span === 2 ? 'col-span-2' : ''}>
+    <div className={span === 2 ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
@@ -409,7 +409,7 @@ function MSelect({
   span?: number;
 }) {
   return (
-    <div className={span === 2 ? 'col-span-2' : ''}>
+    <div className={span === 2 ? 'sm:col-span-2' : ''}>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
@@ -441,7 +441,7 @@ function MWeekdayPicker({
     onChange(value.includes(d) ? value.filter((x) => x !== d) : [...value, d].sort((a, b) => a - b));
 
   return (
-    <div className="col-span-2">
+    <div className="sm:col-span-2">
       <label className="block text-xs font-semibold text-gray-600 mb-2">
         {label} <span className="text-red-500">*</span>
       </label>
@@ -550,7 +550,7 @@ function MOrderedParadaList({
     onChange(value.map((item, idx) => (idx === i ? val : item)));
 
   return (
-    <div className="col-span-2">
+    <div className="sm:col-span-2">
       <label className="block text-xs font-semibold text-gray-600 mb-2">
         Paradas da Rota (ordem de embarque) <span className="text-red-500">*</span>
       </label>
@@ -625,7 +625,7 @@ function EditDestino({ destino, onSaved, onClose }: { destino: Destino; onSaved:
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Nome do Destino" name="nome" defaultValue={destino.nome} required span={2} />
         <MField label="Rua / Logradouro" name="rua" defaultValue={destino.rua} required span={2} />
         <MField label="Cidade" name="cidade" defaultValue={destino.cidade} required />
@@ -665,7 +665,7 @@ function EditParada({ parada, onSaved, onClose }: { parada: Parada; onSaved: () 
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Nome / Apelido da Parada" name="nome" defaultValue={parada.nome} required span={2} />
         <MField label="Cidade" name="cidade" defaultValue={parada.cidade} required span={2} />
         <MField label="Latitude" name="latitude" type="number" step="any" defaultValue={parada.latitude} required />
@@ -702,8 +702,8 @@ function EditRotaInterna({ rota, onSaved, onClose }: { rota: RotaInterna; onSave
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-2 rounded-xl px-3.5 py-2.5 text-sm bg-gray-50 border border-gray-200 text-gray-600">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="sm:col-span-2 rounded-xl px-3.5 py-2.5 text-sm bg-gray-50 border border-gray-200 text-gray-600">
           Cidade: <span className="font-semibold text-gray-700">{rota.cidade}</span>
           <p className="text-[11px] text-gray-400 mt-0.5">
             A API só permite substituir a sequência de paradas (PUT /rotas-internas/{'{id}'}/paradas) — a cidade não é editável aqui.
@@ -748,7 +748,7 @@ function EditHorario({ horario, onSaved, onClose }: { horario: HorarioTurnoViage
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Cidade" name="cidade" defaultValue={horario.cidade} required span={2} />
         <MSelect
           label="Turno"
@@ -784,7 +784,7 @@ function EditHorario({ horario, onSaved, onClose }: { horario: HorarioTurnoViage
           />
         </div>
         {invalido && (
-          <div className="col-span-2 rounded-xl p-3 text-xs text-red-600" style={{ background: '#fef2f2', border: '1px solid #fecaca' }}>
+          <div className="sm:col-span-2 rounded-xl p-3 text-xs text-red-600" style={{ background: '#fef2f2', border: '1px solid #fecaca' }}>
             O horário de volta precisa ser maior que o horário de ida (horario_volta &gt; horario_ida).
           </div>
         )}
@@ -843,7 +843,7 @@ function EditVeiculo({ veiculo, onSaved, onClose }: { veiculo: Veiculo; onSaved:
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Placa" name="placa" defaultValue={veiculo.placa} required />
         <MField label="Modelo" name="modelo" defaultValue={veiculo.modelo} required />
         <MSelect
@@ -870,7 +870,7 @@ function EditVeiculo({ veiculo, onSaved, onClose }: { veiculo: Veiculo; onSaved:
           options={STATUS_VEICULO}
           span={2}
         />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <label className="block text-xs font-semibold text-gray-600 mb-2">Comodidades de Conforto</label>
           <div className="flex flex-wrap gap-2">
             {COMODIDADES.map(({ key, label }) => (
@@ -896,7 +896,7 @@ function EditVeiculo({ veiculo, onSaved, onClose }: { veiculo: Veiculo; onSaved:
             ))}
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <MFileUpload
             label="Foto do Veículo"
             bucket="fotos"
@@ -945,7 +945,7 @@ function EditMotorista({ motorista, onSaved, onClose }: { motorista: Motorista; 
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Nome Completo" name="nome" defaultValue={motorista.nome} required span={2} />
         <MField label="CPF" defaultValue={motorista.cpf} />
         <p className="text-[11px] text-gray-400 self-end pb-2.5 col-span-1">CPF não pode ser alterado.</p>
@@ -954,7 +954,7 @@ function EditMotorista({ motorista, onSaved, onClose }: { motorista: Motorista; 
         <MSelect label="Turno" required value={turno} onChange={(v) => setTurno(v as Turno)} options={TURNOS_COMPLETOS} />
         <MField label="Cidade de Trabalho" name="cidade_trabalho" defaultValue={motorista.cidade_trabalho} required />
         <MField label="Residência" name="residencia" defaultValue={motorista.residencia} required span={2} />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <MFileUpload
             label="Foto do Motorista"
             bucket="fotos"
@@ -998,13 +998,13 @@ function EditCliente({ cliente, onSaved, onClose }: { cliente: Cliente; onSaved:
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="Nome Completo" name="nome" defaultValue={cliente.nome} required span={2} />
         <MField label="CPF" defaultValue={cliente.cpf} />
         <p className="text-[11px] text-gray-400 self-end pb-2.5">CPF não pode ser alterado.</p>
         <MField label="Telefone" name="telefone" type="tel" defaultValue={cliente.telefone ?? ''} />
         <MField label="Data de Nascimento" name="data_nasc" type="date" defaultValue={cliente.data_nasc} required />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <MFileUpload
             label="Foto do Cliente"
             bucket="fotos"
@@ -1062,7 +1062,7 @@ function EditVinculo({ vinculo, onSaved, onClose }: { vinculo: Vinculo; onSaved:
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MSelect label="Tipo" required value={tipo} onChange={(v) => setTipo(v as TipoVinculo)} options={TIPOS_VINCULO} />
         <MSelect label="Turno" required value={turno} onChange={(v) => setTurno(v as Turno)} options={TURNOS_COMPLETOS} />
         <MSelect
@@ -1082,7 +1082,7 @@ function EditVinculo({ vinculo, onSaved, onClose }: { vinculo: Vinculo; onSaved:
         <MField label="Curso" name="curso" defaultValue={vinculo.curso ?? ''} />
         <MField label="Validade do Vínculo" name="validade" type="date" defaultValue={vinculo.validade} required />
         <MWeekdayPicker label="Horários Fixos (dias com transporte)" value={horariosFixos} onChange={setHorariosFixos} />
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <MFileUpload
             label="Comprovante (matrícula / estágio)"
             hint="PDF ou imagem do comprovante"
@@ -1121,9 +1121,9 @@ function EditAdmin({ admin, onSaved, onClose }: { admin: Admin; onSaved: () => v
 
   return (
     <EditFormShell onSubmit={handleSubmit} submitting={loading} error={error} success={success} onClose={onClose}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MField label="E-mail" name="email" type="email" defaultValue={admin.email} required span={2} />
-        <p className="col-span-2 text-[11px] text-gray-400">
+        <p className="sm:col-span-2 text-[11px] text-gray-400">
           Apenas o e-mail é atualizável por este formulário (PUT /admin/{'{adminID}'}).
         </p>
       </div>
@@ -1579,7 +1579,7 @@ export default function DadosPage() {
   return (
     <div className="min-h-full">
       <Header title="Visualização de Dados" subtitle="Listagem completa de todas as entidades" />
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
 
         {/* Entity selector tabs */}
         <div className="flex gap-1 p-1 bg-white rounded-2xl shadow-sm border border-gray-100 mb-5 overflow-x-auto">
@@ -1613,17 +1613,17 @@ export default function DadosPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
 
           {/* Toolbar */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 gap-3 flex-wrap">
-            <div className="relative">
+          <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-b border-gray-100 gap-3 flex-wrap">
+            <div className="relative w-full sm:w-64">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="pl-8 pr-4 py-2 text-sm border border-gray-200 rounded-xl w-64 focus:outline-none focus:border-blue-400 bg-gray-50 placeholder-gray-400 text-gray-700"
+                className="pl-8 pr-4 py-2 text-sm border border-gray-200 rounded-xl w-full focus:outline-none focus:border-blue-400 bg-gray-50 placeholder-gray-400 text-gray-700"
                 placeholder="Pesquisar em todos os campos..."
               />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {/* Column filter */}
               <div className="relative">
                 <select
@@ -1743,11 +1743,11 @@ export default function DadosPage() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100">
+          <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-t border-gray-100 gap-3 flex-wrap">
             <p className="text-xs text-gray-400">
               Exibindo {Math.min((page - 1) * PAGE_SIZE + 1, filtered.length)}–{Math.min(page * PAGE_SIZE, filtered.length)} de {filtered.length}
             </p>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-wrap">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}

@@ -56,7 +56,7 @@ export default function LoginTicket() {
         }
       `}</style>
 
-      <div className="login-ticket-float relative w-[38vw]">
+      <div className="login-ticket-float relative w-[88vw] max-w-[420px] sm:max-w-[460px] lg:w-[38vw] lg:max-w-[560px]">
         
         {/* Adicionada a classe 'ticket-cutout-mask' aqui.
           Agora o cartão possui furos físicos transparentes!
@@ -70,7 +70,7 @@ export default function LoginTicket() {
         >
           {/* Header */}
           <div
-            className="relative flex flex-col items-center py-10 px-6"
+            className="relative flex flex-col items-center py-8 sm:py-10 px-4 sm:px-6"
             style={{ background: 'linear-gradient(160deg, #4A6FA5 0%, #3A5A90 100%)' }}
           >
             {/* Bus icon */}
@@ -83,17 +83,17 @@ export default function LoginTicket() {
               />
             </div>
 
-            <h1 className="text-white font-bold text-2xl tracking-[0.12em] uppercase text-center leading-tight">
+            <h1 className="text-white font-bold text-xl sm:text-2xl tracking-[0.12em] uppercase text-center leading-tight">
               Sistema BondRota
             </h1>
-            <p className="text-white/60 text-sm tracking-[0.18em] uppercase mt-1">
+            <p className="text-white/60 text-xs sm:text-sm tracking-[0.18em] uppercase mt-1 text-center">
               Tela de Login
             </p>
           </div>
 
           {/* Body */}
           <div
-            className="flex flex-col flex-1 gap-10 px-15 py-10 justify-center"
+            className="flex flex-col flex-1 gap-6 sm:gap-10 px-6 sm:px-10 lg:px-15 py-8 sm:py-10 justify-center"
             style={{ background: '#F2F3F5' }}
           >
             {/* Linha pontilhada alinhada perfeitamente com o centro do furo */}

@@ -187,12 +187,12 @@ export default function DashboardPage() {
     <div className="min-h-full">
       <Header title="Dashboard" subtitle={`Visão geral da operação — hoje, ${today}`} />
 
-      <div className="p-6 space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
 
         {/* ── Operação Diária ── */}
         <section>
           <SectionTitle title="Operação Diária" sub="Dados consolidados" />
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             <KPICard
               icon={Bus}
               label="Reservas Ativas"
@@ -226,7 +226,7 @@ export default function DashboardPage() {
 
         {/* ── Gestão de Frota + Motoristas ── */}
         <section>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
             {/* Desempenho de Motoristas */}
             <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
@@ -292,7 +292,7 @@ export default function DashboardPage() {
 
         {/* ── Frota e Demanda ── */}
         <section>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {/* Pie chart: Frota por categoria */}
             <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
@@ -329,7 +329,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Demanda por turno - Line chart */}
-            <div className="col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div className="lg:col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
               <SectionTitle title="Demanda por Turno" sub="Reservas por dia da semana (Seg–Sex)" />
               <ResponsiveContainer width="100%" height={220}>
                 <LineChart data={demandData}>
@@ -359,7 +359,7 @@ export default function DashboardPage() {
 
         {/* ── Comodidades + Paradas + Mapa ── */}
         <section>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {/* Frota Comodidades */}
             <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">

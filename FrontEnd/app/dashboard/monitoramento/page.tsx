@@ -151,16 +151,16 @@ export default function MonitoramentoPage() {
     <div className="flex flex-col h-full">
       <Header title="Monitoramento em Tempo Real" subtitle={`${ativos} viagens em andamento · ${programadas} programadas`} />
 
-      {/* Full height map area */}
-      <div className="flex flex-1 overflow-hidden relative" style={{ height: 'calc(100vh - 64px)' }}>
+      {/* Map + panel area — empilhados no mobile, lado a lado a partir de lg */}
+      <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden relative lg:h-[calc(100vh-64px)]">
 
         {/* MAP */}
-        <div className="flex-1 p-4 relative">
+        <div className="w-full lg:flex-1 h-[42vh] sm:h-[50vh] lg:h-auto shrink-0 p-3 sm:p-4 relative">
           <LiveTrackingMap motoristasAtivos={motoristasAtivos} motoristas={motoristas} />
 
           {/* Status do monitoramento ao vivo (Firebase Realtime Database) */}
           <div
-            className="absolute top-7 right-7 z-[1000] flex items-center gap-1.5 bg-white/90 px-2.5 py-1.5 rounded-xl text-[12px] font-semibold shadow-sm"
+            className="absolute top-4 right-4 sm:top-7 sm:right-7 z-[1000] flex items-center gap-1.5 bg-white/90 px-2.5 py-1.5 rounded-xl text-[11px] sm:text-[12px] font-semibold shadow-sm"
             style={{ color: motoristasAtivos.length > 0 ? '#dc2626' : '#9ca3af' }}
           >
             <Radio size={12} className={motoristasAtivos.length > 0 ? 'animate-pulse' : ''} />
@@ -170,16 +170,16 @@ export default function MonitoramentoPage() {
           </div>
 
           {erroMotoristasAtivos && (
-            <div className="absolute bottom-7 left-7 z-[1000] bg-white/90 px-3 py-2 rounded-xl text-[11px] text-red-500 shadow-sm">
+            <div className="absolute bottom-4 left-4 sm:bottom-7 sm:left-7 z-[1000] bg-white/90 px-3 py-2 rounded-xl text-[11px] text-red-500 shadow-sm">
               {erroMotoristasAtivos}
             </div>
           )}
         </div>
 
-        {/* PANEL TOGGLE */}
+        {/* PANEL TOGGLE — recolhe o painel apenas em telas largas; no mobile o painel fica sempre visível, empilhado */}
         <button
           onClick={() => setPanelOpen((o) => !o)}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-6 h-12 rounded-l-xl flex items-center justify-center shadow-md transition-all"
+          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-6 h-12 rounded-l-xl items-center justify-center shadow-md transition-all"
           style={{
             background: '#1E2B47',
             right: panelOpen ? '320px' : '0',
@@ -190,12 +190,9 @@ export default function MonitoramentoPage() {
 
         {/* SIDE PANEL */}
         <div
-          className="flex flex-col border-l border-gray-200 transition-all duration-300 overflow-hidden"
-          style={{
-            width: panelOpen ? '320px' : '0',
-            background: '#ffffff',
-            minWidth: panelOpen ? '320px' : '0',
-          }}
+          className={`flex flex-col w-full border-t lg:border-t-0 lg:border-l border-gray-200 bg-white transition-all duration-300 overflow-hidden ${
+            panelOpen ? 'lg:w-[320px] lg:min-w-[320px]' : 'lg:w-0 lg:min-w-0'
+          }`}
         >
           {panelOpen && (
             <>
