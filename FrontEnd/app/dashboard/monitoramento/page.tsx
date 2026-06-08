@@ -28,7 +28,7 @@ const LiveTrackingMap = dynamic(() => import('@/components/dashboard/LiveTrackin
 // ── Labels para os enumerados da API ──────────────────────────────────────
 
 const STATUS_LABELS: Record<string, string> = {
-  aguardando: 'Aguardando',
+  programada: 'Programada',
   em_andamento: 'Em Andamento',
   concluida: 'Concluída',
   cancelada: 'Cancelada',
@@ -43,7 +43,7 @@ function statusStyle(status: ViagemStatus) {
   switch (status) {
     case 'em_andamento': return { bg: '#dbeafe', color: '#2563eb', dot: '#3b82f6' };
     case 'concluida': return { bg: '#dcfce7', color: '#16a34a', dot: '#22c55e' };
-    case 'aguardando': return { bg: '#f3f4f6', color: '#6b7280', dot: '#9ca3af' };
+    case 'programada': return { bg: '#f3f4f6', color: '#6b7280', dot: '#9ca3af' };
     default: return { bg: '#fee2e2', color: '#dc2626', dot: '#ef4444' };
   }
 }
@@ -145,11 +145,11 @@ export default function MonitoramentoPage() {
   const { motoristasAtivos, error: erroMotoristasAtivos } = useMotoristasAtivos();
 
   const ativos = viagens.filter((v) => v.status === 'em_andamento').length;
-  const aguardando = viagens.filter((v) => v.status === 'aguardando').length;
+  const programadas = viagens.filter((v) => v.status === 'programada').length;
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Monitoramento em Tempo Real" subtitle={`${ativos} viagens em andamento · ${aguardando} aguardando`} />
+      <Header title="Monitoramento em Tempo Real" subtitle={`${ativos} viagens em andamento · ${programadas} programadas`} />
 
       {/* Full height map area */}
       <div className="flex flex-1 overflow-hidden relative" style={{ height: 'calc(100vh - 64px)' }}>
@@ -211,10 +211,10 @@ export default function MonitoramentoPage() {
                       <CheckCircle size={10} />
                       {ativos} ativas
                     </span>
-                    {aguardando > 0 && (
+                    {programadas > 0 && (
                       <span className="flex items-center gap-1 text-[11px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
                         <AlertTriangle size={10} />
-                        {aguardando}
+                        {programadas}
                       </span>
                     )}
                   </div>

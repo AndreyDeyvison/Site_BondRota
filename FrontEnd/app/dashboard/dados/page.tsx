@@ -24,8 +24,10 @@ import { listarDestinos, atualizarDestino, removerDestino } from '@/services/des
 import { listarRotasInternas, substituirParadasDaRota, removerRotaInterna } from '@/services/rotas-internas';
 import { listarHorariosTurnoViagem, atualizarHorarioTurnoViagem, removerHorarioTurnoViagem } from '@/services/horarios-turno-viagem';
 import { listarAdmins, atualizarAdmin, removerAdmin } from '@/services/admin';
+import { listarViagens } from '@/services/viagens';
+import { listarTodasReservas } from '@/services/reservas';
 
-import type { Cliente, ClienteUpdatePayload, Vinculo, VinculoUpdatePayload, TipoVinculo } from '@/types/cliente';
+import type { Cliente, ClienteUpdatePayload, Reserva, Vinculo, VinculoUpdatePayload, TipoVinculo } from '@/types/cliente';
 import type { Destino, DestinoUpdatePayload } from '@/types/destino';
 import type { Parada, ParadaUpdatePayload } from '@/types/parada';
 import type { RotaInterna, RotaInternaParadasUpdatePayload } from '@/types/rota-interna';
@@ -33,7 +35,8 @@ import type { HorarioTurnoViagem, HorarioTurnoViagemUpdatePayload, TurnoHorario 
 import type { CategoriaVeiculo, StatusVeiculo, Veiculo, VeiculoUpdatePayload } from '@/types/veiculo';
 import type { Motorista, MotoristaUpdatePayload } from '@/types/motorista';
 import type { Admin, AdminUpdatePayload } from '@/types/admin';
-import type { DiaSemana, Turno } from '@/types/common';
+import type { Viagem } from '@/types/viagem';
+import type { DiaSemana, Sentido, Turno } from '@/types/common';
 
 // ── Mapeamento entidade → linha de tabela ─────────────────────────────────
 // Cada serviço retorna um shape próprio; aqui convertemos para um registro
@@ -68,6 +71,27 @@ const TIPO_VINCULO_LABELS: Record<string, string> = {
   estudante: 'Estudante',
   estagio: 'Estágio',
 };
+
+const SENTIDO_LABELS: Record<Sentido, string> = {
+  ida: 'Ida',
+  volta: 'Volta',
+};
+
+const STATUS_VIAGEM_LABELS: Record<string, string> = {
+  programada: 'Programada',
+  em_andamento: 'Em Andamento',
+  concluida: 'Concluída',
+  cancelada: 'Cancelada',
+};
+
+const STATUS_RESERVA_LABELS: Record<string, string> = {
+  confirmada: 'Confirmada',
+  cancelada: 'Cancelada',
+  concluida: 'Concluída',
+};
+
+/** Abas só de consulta — viagens e reservas são geradas pelo planejamento, não editadas aqui. */
+const READ_ONLY_ENTITIES = ['viagens', 'reservas'];
 
 const DIA_SEMANA_LABELS: Record<number, string> = {
   1: 'Seg', 2: 'Ter', 3: 'Qua', 4: 'Qui', 5: 'Sex',
@@ -126,6 +150,11 @@ function StatusBadge({ value, label }: { value: string; label: string }) {
     ativo: { bg: '#dcfce7', color: '#16a34a' },
     inativo: { bg: '#fee2e2', color: '#dc2626' },
     manutencao: { bg: '#fef9c3', color: '#ca8a04' },
+    programada: { bg: '#f3f4f6', color: '#6b7280' },
+    em_andamento: { bg: '#dbeafe', color: '#2563eb' },
+    confirmada: { bg: '#dcfce7', color: '#16a34a' },
+    concluida: { bg: '#dcfce7', color: '#16a34a' },
+    cancelada: { bg: '#fee2e2', color: '#dc2626' },
   };
   const style = map[value] ?? { bg: '#f3f4f6', color: '#6b7280' };
   return (
@@ -1115,6 +1144,8 @@ export default function DadosPage() {
   const rotas = useEntityList(listarRotasInternas, 'Não foi possível carregar as rotas internas.');
   const horarios = useEntityList(listarHorariosTurnoViagem, 'Não foi possível carregar os horários.');
   const admins = useEntityList(listarAdmins, 'Não foi possível carregar os administradores.');
+  const viagens = useEntityList(listarViagens, 'Não foi possível carregar as viagens.');
+  const reservas = useEntityList(listarTodasReservas, 'Não foi possível carregar as reservas.');
 
   // A API não tem listagem global de vínculos — agregamos buscando os vínculos de cada cliente.
   const listarTodosVinculos = useCallback(async (): Promise<VinculoComCliente[]> => {
@@ -1324,7 +1355,57 @@ export default function DadosPage() {
         { key: 'cidade', label: 'Cidade' },
       ],
     },
-  ], [destinos, paradas, rotas, horarios, veiculos, motoristas, clientes, vinculos, admins]);
+    {
+      id: 'viagens',
+      label: 'Viagens',
+      loading: viagens.loading,
+      error: viagens.error,
+      data: viagens.data.map((v): Row => ({
+        id: v.id,
+        data_viagem: v.data_viagem,
+        turno: v.turno,
+        sentido: SENTIDO_LABELS[v.sentido] ?? v.sentido,
+        cidade: v.cidade,
+        motorista: motoristas.data.find((m) => m.id === v.motorista_id)?.nome ?? `Motorista #${v.motorista_id}`,
+        veiculo: veiculos.data.find((vc) => vc.id === v.veiculo_id)?.placa ?? (v.veiculo_id ? `Veículo #${v.veiculo_id}` : '—'),
+        status: v.status,
+        statusLabel: STATUS_VIAGEM_LABELS[v.status] ?? v.status,
+      })),
+      columns: [
+        { key: 'data_viagem', label: 'Data' },
+        { key: 'turno', label: 'Turno' },
+        { key: 'sentido', label: 'Sentido' },
+        { key: 'cidade', label: 'Cidade' },
+        { key: 'motorista', label: 'Motorista' },
+        { key: 'veiculo', label: 'Veículo' },
+        { key: 'status', label: 'Status' },
+      ],
+    },
+    {
+      id: 'reservas',
+      label: 'Reservas',
+      loading: reservas.loading,
+      error: reservas.error,
+      data: reservas.data.map((r): Row => ({
+        id: r.id,
+        data_viagem: r.data_viagem,
+        turno: r.turno,
+        sentido: SENTIDO_LABELS[r.sentido] ?? r.sentido,
+        cidade: r.cidade ?? '—',
+        destino: r.destino_id ? (destinos.data.find((d) => d.id === r.destino_id)?.nome ?? `Destino #${r.destino_id}`) : '—',
+        status: r.status ?? '—',
+        statusLabel: r.status ? (STATUS_RESERVA_LABELS[r.status] ?? r.status) : '—',
+      })),
+      columns: [
+        { key: 'data_viagem', label: 'Data' },
+        { key: 'turno', label: 'Turno' },
+        { key: 'sentido', label: 'Sentido' },
+        { key: 'cidade', label: 'Cidade' },
+        { key: 'destino', label: 'Destino' },
+        { key: 'status', label: 'Status' },
+      ],
+    },
+  ], [destinos, paradas, rotas, horarios, veiculos, motoristas, clientes, vinculos, admins, viagens, reservas]);
 
   const [activeEntity, setActiveEntity] = useState('clientes');
   const [search, setSearch] = useState('');
@@ -1347,6 +1428,8 @@ export default function DadosPage() {
     clientes: clientes.refetch,
     vinculos: vinculos.refetch,
     admins: admins.refetch,
+    viagens: viagens.refetch,
+    reservas: reservas.refetch,
   };
 
   const executeDelete = useCallback((entityId: string, id: number): Promise<void> => {
@@ -1632,20 +1715,24 @@ export default function DadosPage() {
                           >
                             <Eye size={14} />
                           </button>
-                          <button
-                            onClick={() => setModal({ action: 'edit', entityId: entity.id, id: Number(row.id) })}
-                            className="p-1.5 rounded-lg hover:bg-amber-50 text-gray-400 hover:text-amber-500 transition-colors"
-                            title="Editar"
-                          >
-                            <Edit2 size={14} />
-                          </button>
-                          <button
-                            onClick={() => setModal({ action: 'delete', entityId: entity.id, id: Number(row.id) })}
-                            className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
-                            title="Excluir"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          {!READ_ONLY_ENTITIES.includes(entity.id) && (
+                            <>
+                              <button
+                                onClick={() => setModal({ action: 'edit', entityId: entity.id, id: Number(row.id) })}
+                                className="p-1.5 rounded-lg hover:bg-amber-50 text-gray-400 hover:text-amber-500 transition-colors"
+                                title="Editar"
+                              >
+                                <Edit2 size={14} />
+                              </button>
+                              <button
+                                onClick={() => setModal({ action: 'delete', entityId: entity.id, id: Number(row.id) })}
+                                className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
+                                title="Excluir"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

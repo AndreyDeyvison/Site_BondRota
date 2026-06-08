@@ -13,7 +13,7 @@ interface UseViagensResult {
   refetch: () => Promise<void>;
 }
 
-/** `GET /viagens/` — viagens atribuídas ao motorista autenticado, para o painel do motorista. */
+/** `GET /viagens/` — todas as viagens com dados do ciclo, para o painel de monitoramento do admin. */
 export function useViagens(): UseViagensResult {
   const [viagens, setViagens] = useState<Viagem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -55,8 +55,8 @@ interface UseViagemResult {
 
 /**
  * Combina `GET /viagens/{viagemID}` (detalhe + dados do ciclo) com
- * `GET /viagens/{viagemID}/reservas/` (lista de passageiros) para a tela de
- * detalhe de viagem do motorista.
+ * `GET /viagens/{viagemID}/reservas/` (lista de passageiros) para o painel
+ * de monitoramento do admin (checklist de presença / ocupação da viagem).
  */
 export function useViagem(viagemId: number | null): UseViagemResult {
   const [viagem, setViagem] = useState<Viagem | null>(null);
