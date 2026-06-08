@@ -66,7 +66,11 @@ export type ReservaStatus = 'confirmada' | 'cancelada' | 'concluida' | string;
 
 export interface Reserva {
   id: number;
+  cliente_id?: number;
   vinculo_id: number;
+  destino_id?: number;
+  rota_interna_id?: number;
+  cidade?: string;
   data_viagem: DataISO;
   turno: Turno;
   sentido: Sentido;
