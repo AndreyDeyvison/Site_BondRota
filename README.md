@@ -30,3 +30,13 @@ npm run dev
 Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
 > É necessário configurar as variáveis de ambiente (chaves do Firebase e URL da API) em um arquivo `.env`.
+
+## Fotos 
+
+![Foto da Tela de Login](photos/foto_tela_login.png)
+
+![Foto da Tela de Casdastro](photos/foto_cadastros.png)
+
+![Foto da Tela de Dashboard](photos/foto_dashboard.png)
+
+![Foto da Tela de Visualização de Dados](photos/foto_visualizacao_dados.png)
